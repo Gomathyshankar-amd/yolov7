@@ -577,6 +577,9 @@ if __name__ == '__main__':
 
     # Resume
     wandb_run = check_wandb_resume(opt)
+    print("*************")
+    print(wandb_run)
+    
     if opt.resume and not wandb_run:  # resume an interrupted run
         ckpt = opt.resume if isinstance(opt.resume, str) else get_latest_run()  # specified or most recent path
         assert os.path.isfile(ckpt), 'ERROR: --resume checkpoint does not exist'
@@ -620,6 +623,7 @@ if __name__ == '__main__':
 
     # Evolve hyperparameters (optional)
     else:
+        print("In else (evolve hyperparams)")
         # Hyperparameter evolution metadata (mutation scale 0-1, lower_limit, upper_limit)
         meta = {'lr0': (1, 1e-5, 1e-1),  # initial learning rate (SGD=1E-2, Adam=1E-3)
                 'lrf': (1, 0.01, 1.0),  # final OneCycleLR learning rate (lr0 * lrf)
@@ -698,7 +702,9 @@ if __name__ == '__main__':
 
             # Train mutation
             results = train(hyp.copy(), opt, device)
-
+            print("*******")
+            print(results)
+            
             # Write mutation results
             print_mutation(hyp.copy(), results, yaml_file, opt.bucket)
 
